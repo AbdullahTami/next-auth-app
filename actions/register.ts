@@ -1,6 +1,8 @@
 "use server";
 
 import { registerSchema, RegisterValues } from "@/schemas";
+import bcrypt from "bcrypt";
+import db from "@/lib/db";
 
 export async function registerAction(
   values: RegisterValues
@@ -10,6 +12,28 @@ export async function registerAction(
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };
   }
-  console.log(values);
-  return { success: "Email sent!" };
+  const { password, name, email } = validatedFields.data;
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const existingUser = await db.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (existingUser) {
+    return { error: "Email already used!" };
+  }
+
+  await db.user.create({
+    data: {
+      name,
+      email,
+      password: hashedPassword,
+    },
+  });
+
+  // TODO: Send verification token email
+  return { success: "User created successfully" };
 }

@@ -65,7 +65,7 @@ export default function RegisterForm() {
                       {...field}
                       disabled={isPending}
                       placeholder="Adam"
-                      type="email"
+                      type="name"
                     />
                   </FormControl>
                   <FormMessage />

@@ -5,6 +5,7 @@
     "LOGGEDIN",
     "lucide",
     "nextauth",
+    "Signin",
     "tailwindcss",
     "trpc"
   ]

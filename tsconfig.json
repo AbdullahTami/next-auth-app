@@ -12,6 +12,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "typeRoots": ["types"],
     "jsx": "preserve",
     "incremental": true,
     "plugins": [

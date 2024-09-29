@@ -1,5 +1,7 @@
 "use server";
 import { getUserByEmail } from "@/data/user";
+import { sendPasswordResetEmail } from "@/lib/mail";
+import { generatePasswordResetToken } from "@/lib/token";
 import { resetSchema, ResetValues } from "@/schemas";
 
 export async function reset(values: ResetValues) {
@@ -18,6 +20,10 @@ export async function reset(values: ResetValues) {
     return { error: "Email not found!" };
   }
 
-  //   TODO: Generate token and send email
+  const passwordResetToken = await generatePasswordResetToken(email);
+  await sendPasswordResetEmail(
+    passwordResetToken.email,
+    passwordResetToken.token
+  );
   return { success: "Reset email sent!" };
 }

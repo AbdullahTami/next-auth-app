@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
-import { loginAction } from "@/actions/login";
 import FormError from "@/components/FormError";
 import FormSuccess from "@/components/FormSuccess";
 import { Button } from "@/components/ui/button";
@@ -17,25 +16,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginSchema, LoginValues } from "@/schemas";
+import { resetSchema, type ResetValues } from "@/schemas";
+import { reset } from "@/actions/resetPassword";
 
 export default function ResetForm() {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-  const form = useForm<LoginValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<ResetValues>({
+    resolver: zodResolver(resetSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  async function onSubmit(values: LoginValues) {
+  async function onSubmit(values: ResetValues) {
     setError("");
     setSuccess("");
     startTransition(async () => {
-      await loginAction(values).then((data) => {
+      await reset(values).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
       });

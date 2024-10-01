@@ -27,6 +27,7 @@ export default function LoginForm() {
     searchParams.get("error") === "OAuthAccountNotLinked"
       ? "Email already in use with different provider"
       : "";
+  const [showTwoFactor, setShowTwoFactor] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -42,12 +43,25 @@ export default function LoginForm() {
     setError("");
     setSuccess("");
     startTransition(async () => {
-      await loginAction(values).then((data) => {
-        setError(data?.error);
-        setSuccess(data?.success);
-      });
+      await loginAction(values)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data?.error);
+          }
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
+
+          if (data?.twoFactor) {
+            setShowTwoFactor(true);
+          }
+        })
+        .catch(() => setError("Something went wrong"));
     });
   }
+  // showTwoFactor
 
   return (
     <CardWrapper

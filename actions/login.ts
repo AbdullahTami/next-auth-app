@@ -2,15 +2,17 @@
 
 import { signIn } from "@/auth";
 import { getUserByEmail } from "@/data/user";
-import { sendVerificationEmail } from "@/lib/mail";
-import { generateVerificationToken } from "@/lib/token";
+import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/lib/mail";
+import { generateTwoFactorToken, generateVerificationToken } from "@/lib/token";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { loginSchema, LoginValues } from "@/schemas";
 import { AuthError } from "next-auth";
 
 export async function loginAction(
   values: LoginValues
-): Promise<{ error?: string; success?: string } | undefined> {
+): Promise<
+  { error?: string; success?: string; twoFactor?: boolean } | undefined
+> {
   const validatedFields = loginSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -33,6 +35,14 @@ export async function loginAction(
       verificationToken.token
     );
     return { success: "Confirmation email sent!" };
+  }
+
+  if (existingUser.isTwoFactorEnabled && existingUser.email) {
+    const twoFactorToken = await generateTwoFactorToken(existingUser.email);
+
+    await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
+
+    return { twoFactor: true };
   }
   try {
     await signIn("credentials", {

@@ -14,7 +14,6 @@ export async function reset(values: ResetValues) {
   const { email } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
-  console.log(existingUser);
 
   if (!existingUser) {
     return { error: "Email not found!" };

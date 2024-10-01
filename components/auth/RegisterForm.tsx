@@ -41,7 +41,6 @@ export default function RegisterForm() {
         setSuccess(data?.success);
       });
     });
-    console.log(values);
   }
 
   return (

@@ -16,7 +16,6 @@ export async function loginAction(
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };
   }
-  console.log(values);
   const { email, password } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);

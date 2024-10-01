@@ -46,7 +46,6 @@ export default function LoginForm() {
         setSuccess(data?.success);
       });
     });
-    console.log(values);
   }
 
   return (

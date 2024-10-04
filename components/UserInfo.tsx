@@ -1,6 +1,7 @@
 import React from "react";
 import { type Session } from "next-auth";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface UserInfoProps {
   user?: Session["user"];
@@ -40,9 +41,12 @@ export default function UserInfo({ user, label }: UserInfoProps) {
         </div>
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <p className="text-sm font-medium">Two Factor Authentication</p>
-          <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-slate-100 rounded-md">
-            {}
-          </p>
+          <Badge
+            variant={user?.isTwoFactorEnabled ? "success" : "destructive"}
+            // className="truncate text-xs max-w-[180px] font-mono p-1 bg-slate-100 rounded-md"
+          >
+            {user?.isTwoFactorEnabled ? "ON" : "OFF"}
+          </Badge>
         </div>
       </CardContent>
     </Card>

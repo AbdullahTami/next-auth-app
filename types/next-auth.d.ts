@@ -7,6 +7,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       /** The user's postal address. */
+      isTwoFactorEnabled: boolean;
       role: "ADMIN" | "USER";
     } & DefaultSession["user"];
   }

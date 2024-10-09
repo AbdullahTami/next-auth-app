@@ -65,7 +65,7 @@ export async function settings(values: SettingsValues) {
       ...values,
     },
   });
-
+  // Update values server side
   unstable_update({
     user: {
       name: updatedUser.name,

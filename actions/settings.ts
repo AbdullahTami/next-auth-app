@@ -6,6 +6,7 @@ import { currentUser } from "@/lib/auth";
 import { sendVerificationEmail } from "@/lib/mail";
 import { generateVerificationToken } from "@/lib/token";
 import { SettingsValues } from "@/schemas";
+import { unstable_update } from "@/auth";
 
 export async function settings(values: SettingsValues) {
   const user = await currentUser();
@@ -58,10 +59,19 @@ export async function settings(values: SettingsValues) {
     values.newPassword = undefined;
   }
 
-  await db.user.update({
+  const updatedUser = await db.user.update({
     where: { id: dbUser.id },
     data: {
       ...values,
+    },
+  });
+
+  unstable_update({
+    user: {
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isTwoFactorEnabled: updatedUser.isTwoFactorEnabled,
+      role: updatedUser?.role as "USER" | "ADMIN",
     },
   });
 

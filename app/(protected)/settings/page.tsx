@@ -3,7 +3,6 @@ import React, { useState, useTransition } from "react";
 import { settings } from "@/actions/settings";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { useSession } from "next-auth/react";
 import { settingsSchema, SettingsValues } from "@/schemas";
 import {
   Form,
@@ -33,7 +32,6 @@ export default function SettingsPage() {
   const user = useCurrentUser();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
-  const { update } = useSession();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<SettingsValues>({
@@ -55,7 +53,6 @@ export default function SettingsPage() {
             setError(data.error);
           }
           if (data.success) {
-            update();
             setSuccess(data.success);
           }
         })

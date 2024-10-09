@@ -43,6 +43,7 @@ export default function SettingsPage() {
       email: user?.email || undefined,
       password: undefined,
       role: user?.role || undefined,
+      isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
     },
   });
 

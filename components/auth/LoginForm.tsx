@@ -127,7 +127,7 @@ export default function LoginForm() {
                       <FormMessage />
                     </FormItem>
                   )}
-                />{" "}
+                />
               </>
             )}
           </div>

@@ -12,7 +12,8 @@ import db from "@/lib/db";
 import { getTwoFactorConfirmationByUserId } from "@/data/twoFactorConfirmation";
 
 export async function loginAction(
-  values: LoginValues
+  values: LoginValues,
+  callbackUrl?: string | null
 ): Promise<
   { error?: string; success?: string; twoFactor?: boolean } | undefined
 > {
@@ -87,7 +88,7 @@ export async function loginAction(
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
   } catch (error) {
     if (error instanceof AuthError) {

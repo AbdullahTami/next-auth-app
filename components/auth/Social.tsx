@@ -6,11 +6,14 @@ import { signIn } from "next-auth/react";
 import { FaGithub } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { useSearchParams } from "next/navigation";
 
 export default function Social() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
   function handleClick(provider: "google" | "github") {
     signIn(provider, {
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
   }
   return (

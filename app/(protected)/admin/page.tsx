@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useCurrentRole } from "@/hooks/useCurrentRole";
 import RoleGate from "@/components/auth/RoleGate";
 import FormSuccess from "@/components/FormSuccess";
 import { Button } from "@/components/ui/button";

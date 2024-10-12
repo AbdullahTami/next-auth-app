@@ -30,7 +30,6 @@ export default function AdminPage() {
       }
     });
   }
-  const role = useCurrentRole();
 
   return (
     <Card className="w-[600px]">

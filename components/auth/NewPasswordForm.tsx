@@ -42,7 +42,6 @@ export default function NewPasswordForm() {
         setSuccess(data?.success);
       });
     });
-    console.log(values);
   }
 
   return (

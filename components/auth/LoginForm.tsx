@@ -59,7 +59,6 @@ export default function LoginForm() {
         })
         .catch(() => setError("Something went wrong"));
     });
-    console.log(values);
   }
 
   return (
